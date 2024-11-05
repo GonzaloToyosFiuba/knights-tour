@@ -1,0 +1,146 @@
+* {
+  box-sizing: content-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #658c8d;
+}
+
+
+#intro-section {
+  text-align: center;
+  margin: 2em auto;
+  padding: 1em;
+  max-width: 600px;
+  background-color: #f5f5f5;
+  border-radius: 0.5em;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#intro-section h1 {
+  font-size: 1.8em;
+  color: #333;
+}
+
+#intro-section p {
+  font-size: 1em;
+  color: #555;
+  line-height: 1.6;
+  margin-top: 0.5em;
+}
+
+
+#move-knight-button,
+#generate-button {
+  font-family: sans-serif;
+  font-size: 1em;
+  border-radius: 0.5em;
+  padding: 0.2em;
+  border: 0.15em solid #333;
+  background-color: beige;
+  font-weight: 600;
+}
+
+#move-knight-button:active,
+#generate-button:active {
+  transform: scale(0.98);
+}
+
+label,
+#board-size {
+  font-family: sans-serif;
+  font-size: 1em;
+  font-weight: 600;
+  background-color: beige;
+  border-radius: 0.5em;
+  padding: 0.2em 0.5em;
+  border: 0.15em solid #333;
+}
+
+#board-size {
+  width: 3em;
+  text-align: center;
+  margin-left: 0.5em;
+}
+
+#board-size:focus {
+  outline: none;
+}
+
+
+.chessboard {
+  display: grid;
+  border: 5px solid #333;
+  margin: auto;
+  margin-top: 20px;
+  position: relative;
+}
+
+.square {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dark {
+  background-color: #769656;
+}
+
+.light {
+  background-color: #eeeed2;
+}
+
+.container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.knight {
+  width: 80%;
+  height: 80%;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  transition: transform 0.5s ease;
+}
+
+.light.visited {
+  background-color: rgb(212, 222, 202);
+}
+
+.dark.visited {
+  background-color: rgb(250, 250, 241);
+}
+
+.seqNum {
+  font-size: 2em;
+  font-family: cursive;
+}
+
+#code-section {
+  margin: 200px auto 50px;
+  max-width: 800px;
+}
+
+#code-section h3 {
+  font-family: sans-serif;
+  font-weight: 800;
+  font-size: 2.5em;
+  color: #000;
+  margin-bottom: 0.6em;
+}
+
+.code-view {
+  max-height: 800px;
+  overflow-y: scroll;
+  border-radius: 5px;
+}
+
+code {
+  font-size: 1.2em;
+}

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="icon.svg">
+  <title>Knight's tour</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/dracula.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script> -->
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+
+  <section id="intro-section">
+    <h1>Simulador del Knight's Tour</h1>
+    <p>
+      Bienvenido al simulador del <em>Knight's Tour</em>, un recorrido en el que el caballo de ajedrez debe visitar cada
+      casilla de un tablero exactamente una vez.
+      Este problema, conocido desde hace siglos, ha fascinado a matemáticos y entusiastas del ajedrez debido a su
+      dificultad y a las estrategias únicas necesarias para resolverlo.
+    </p>
+    <p>
+      Usa este simulador para visualizar cómo se mueve el caballo a través del tablero, experimenta con diferentes
+      tamaños de tablero y observa las rutas predefinidas.
+    </p>
+  </section>
+
+
+  <div class="container">
+    <label for="board-size">Tamaño del tablero: </label>
+    <input type="number" id="board-size" value="8" min="5" max="8">
+    <button id="generate-button">Generar Tablero</button>
+    <button id="move-knight-button">Mover Caballo</button>
+  </div>
+
+  <div class="chessboard" id="chessboard"></div>
+
+  <section id="code-section">
+    <h3>Algoritmo utilizado</h3>
+    <pre class="code-view"><code class="language-python">
+      from grafo import Grafo
+
+      def knight_tour(n):
+          grafo = Grafo()
+          rellenar_grafo(grafo, n)
+      
+          return camino_hamiltoniano(grafo)
+      
+      def rellenar_grafo(grafo: Grafo, n):
+          # Crear tablero
+          for i in range(n):
+              for j in range(n):
+                  grafo.agregar_vertice((i, j))
+      
+          # Aristas
+          for v in grafo.obtener_vertices():
+              fil = v[0]
+              col = v[1]
+                  
+              # movimientos arriba y abajo
+              if fil >= 2: #puede subir largo
+                  if col > 0: #puede izq corto
+                      if not grafo.estan_unidos(v, (fil-2, col-1)):
+                          grafo.agregar_arista(v, (fil-2, col-1))
+                  if col < n-1: #puede der corto
+                      if not grafo.estan_unidos(v, (fil-2, col+1)):
+                          grafo.agregar_arista(v, (fil-2, col+1))
+      
+              if fil < n-2: #puede bajar largo
+                  if col > 0: #puede izq corto
+                      if not grafo.estan_unidos(v, (fil+2, col-1)):
+                          grafo.agregar_arista(v, (fil+2, col-1))
+                  if col < n-1: #puede der corto
+                      if not grafo.estan_unidos(v, (fil+2, col+1)):
+                          grafo.agregar_arista(v, (fil+2, col+1))
+      
+              # movimientos izq y der
+              if col > 2: #puede izq largo
+                  if fil < n-1: #puede abajo corto
+                      if not grafo.estan_unidos(v, (fil+1, col-2)):
+                          grafo.agregar_arista(v, (fil+1, col-2))
+                  if fil > 0: #puede arriba corto
+                      if not grafo.estan_unidos(v, (fil-1, col-2)):
+                          grafo.agregar_arista(v, (fil-1, col-2))
+              
+              if col < n-2: #puede der largo
+                  if fil < n-1: #puede abajo corto
+                      if not grafo.estan_unidos(v, (fil+1, col+2)):
+                          grafo.agregar_arista(v, (fil+1, col+2))
+                  if fil > 0: #puede arriba corto
+                      if not grafo.estan_unidos(v, (fil-1, col+2)):
+                          grafo.agregar_arista(v, (fil-1, col+2))
+          
+      
+      def camino_hamiltoniano(grafo: Grafo):
+          visitados = set()
+          camino = []
+      
+          for v in grafo.obtener_vertices():
+              if v not in visitados:
+                  if camino_hamiltoniano_dfs(grafo, v, visitados, camino):
+                      return camino
+                  
+          return camino
+      
+      def camino_hamiltoniano_dfs(grafo: Grafo, v, visitados: set, camino: list):
+          visitados.add(v)
+          camino.append(v)
+      
+          if len(grafo.obtener_vertices()) == len(camino):
+              return True
+      
+          for w in grafo.adyacentes(v):
+              if w not in visitados:
+                  if camino_hamiltoniano_dfs(grafo, w, visitados, camino):
+                      return True
+          camino.pop()
+          visitados.remove(v)
+          return False
+    </code></pre>
+  </section>
+
+
+  <script src="script.js"></script>
+  <script src="paths.js"></script>
+</body>
+
+</html>
